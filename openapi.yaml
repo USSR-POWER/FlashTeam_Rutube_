@@ -1,0 +1,45 @@
+openapi: 3.0.0
+info:
+  title: Интеллектуальный помощник оператора службы поддержки RuTube
+  version: 1.0.0
+  description: API для обработки вопросов и генерации ответов.
+servers:
+  - url: http://192.144.14.26:8000
+paths:
+  /predict/:
+    post:
+      summary: Получить ответ на заданный вопрос
+      description: Эндпоинт принимает вопрос в формате JSON и возвращает ответ с классификацией.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                question:
+                  type: string
+                  description: Вопрос пользователя, на который нужно получить ответ.
+                  example: "Как сменить пароль?"
+              required:
+                - question
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  answer:
+                    type: string
+                    description: Ответ на заданный вопрос.
+                    example: "Для смены пароля перейдите в настройки вашего профиля."
+                  class_1:
+                    type: string
+                    description: Классификация ответа, первая категория.
+                    example: "УПРАВЛЕНИЕ АККАУНТОМ"
+                  class_2:
+                    type: string
+                    description: Классификация ответа, вторая категория.
+                    example: "Регистрация/Авторизация"
